@@ -1,0 +1,22 @@
+{
+  "name": "cider-ui",
+  "version": "1.0.0",
+  "description": "Front-end for the Cider server https://github.com/yxwzaxns/cider",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yxwzaxns/cider-ui.git"
+  },
+  "author": "aong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yxwzaxns/cider-ui/issues"
+  },
+  "homepage": "https://github.com/yxwzaxns/cider-ui#readme"
+}

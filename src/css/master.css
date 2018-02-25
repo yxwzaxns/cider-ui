@@ -1,0 +1,25 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  /* background-color: #9699a5; */
+  background-image: url("../img/bg.jpeg");
+  background-position: 50% 45%;
+}
+#main {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.clear {
+  clear: none;
+}
+
+.line {
+  margin: 0px;
+  unicode-bidi: isolate;
+  overflow: hidden;
+  border-style: inset;
+  border-width: 1px;
+}

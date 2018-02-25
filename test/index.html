@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script src="../src/js/jquery.js" charset="utf-8"></script>
+  <style media="screen">
+    *{
+      padding: 0px;
+      margin: 0px;
+    }
+    .c{
+      height: 100px;
+      width: 100px;
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+<div class="c"></div>
+<script type="text/javascript">
+  // var e = jQuery.Event("click", createDiv)
+  function createDiv() {
+    var div = $('<div></div>').addClass('c').on('click', createDiv);
+    $("body").append(div)
+
+  }
+
+  $(".c").click(createDiv);
+
+</script>
+</body>
+</html>
