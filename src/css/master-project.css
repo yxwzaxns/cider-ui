@@ -1,10 +1,8 @@
 #projects {
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 200px;
+
+  /* display: none; */
 }
-.project {
+.projectItem {
   width: 200px;
   height: 200px;
   background-color: #c9cbcc;
@@ -15,14 +13,40 @@
   box-shadow: 5px 2px 5px;
   opacity: 0.8;
   vertical-align: bottom;
+  cursor: pointer;
 }
 
-.project .p {
+#addProject {
+  width: 200px;
+  height: 200px;
+  background-color: #c9cbcc;
+  margin: 5px;
+  display: inline-block;
+  /* float: left; */
+  border-radius: 10px;
+  box-shadow: 5px 2px 5px;
+  opacity: 0.8;
+  vertical-align: bottom;
+  cursor: pointer;
+  position: relative;
+}
+
+#addProject i {
+  width: 60%;
+  height: 64%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.projectItem .p {
   height: 60px;
-  padding: 2px;
+  padding: 6px;
   /* margin-top: 5px; */
 }
-.project #icon {
+.projectItem #icon {
   margin-left: 10px;
   margin-top: 10px;
   width: 40px;
@@ -35,23 +59,24 @@
   background-color: white;
   box-shadow: 2px 1px 3px;
 }
-.project #name {
+.projectItem #name {
   margin-left: 10px;
   margin-top: 10px;
   display: inline-block;
   line-height: 40px;
   vertical-align: bottom;
 }
-.project #content {
+.projectItem #content {
   font-family: Monospace;
   text-align: left;
   text-indent: 3mm;
+  word-wrap: break-word;
 }
-.project #ci {
+.projectItem #ci {
   display: inline-block;
   vertical-align: bottom;
 }
-.project #cd {
+.projectItem #cd {
   display: inline-block;
   vertical-align: bottom;
 }

@@ -18,6 +18,12 @@ module.exports = {
           use: {
               loader: 'html-loader'
             }
+        },
+        {
+          test: /\.js$/,
+          use: {
+              loader: 'babel-loader'
+          }
         }
     ]
   },
@@ -32,11 +38,12 @@ module.exports = {
   // },
   plugins: [
     new webpack.ProvidePlugin({
+      jQuery: 'jquery',
       $: 'jquery'
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      inject: 'body',
+      inject: 'head',
     })
   ],
   devServer: {

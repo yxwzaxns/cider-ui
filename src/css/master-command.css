@@ -1,43 +1,68 @@
-#commmand-line {
+#command-line {
   position: fixed;
   bottom: 0px;
   left: 0px;
   right: 0px;
   width: 80%;
-  height: 15%;
+  height: 12%;
   background-color: black;
   overflow-y: scroll;
   margin: 0 auto;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   /* display: none; */
   opacity: 0.6;
 }
 .console {
-  margin-top: 4px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: 100%;
+  /* to solve a problem ahout the white space among the inline-block element */
+  font-size: 0;
 }
 .console-head {
   color: rgb(255, 255, 255);
   font-family: Monospace;
   margin: 0px 0px 0px 10px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   border: none;
-  float: left;
+  /* float: left; */
+  display: inline-block;
+  vertical-align: bottom;
+  /* width: 25%; */
 }
 .console-input {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   resize: none;
   display: inline-block;
-  margin: 0px 0px 0px 10px;
+  margin: 0px 0px 0px 5px;
   border: none;
   outline: none;
   background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
   font-family: Monospace;
   width: 70%;
+  /* height: 23px; */
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.console-output {
+  font-size: 18px;
+  font-weight: 400;
+  resize: none;
+  display: inline-block;
+  margin: 0px 0px 0px 5px;
+  border: none;
+  outline: none;
+  background-color: rgb(0, 0, 0);
+  color: #54585e;
+  font-family: Monospace;
+  width: 70%;
   height: 23px;
   overflow: hidden;
+  vertical-align: bottom;
 }
 #terminal {
   position: fixed;

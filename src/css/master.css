@@ -5,11 +5,18 @@
 body {
   /* background-color: #9699a5; */
   background-image: url("../img/bg.jpeg");
-  background-position: 50% 45%;
+  background-position: 50% 27%;
+  background-repeat: no-repeat;
 }
 #main {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
   width: 90%;
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  text-align: center;
+  /* margin-top: -30%; */
+  margin-left: -45%;
 }
 
 .clear {
