@@ -1,13 +1,14 @@
 import axios from 'axios'
-import {showProjectPanel} from './project.js'
-const DefaultCmd = ['help','cd','ls','login','showproject','showsetting'];
+import {Auth} from './api.js'
+import {ShowProjectPanel} from './project.js'
+const DefaultCmd = ['help','cd','ls','auth','showproject','showsetting'];
 const Dir = ["project","setting"];
 const SubCmd = ["list projects"];
 const ErrorCmd = ['-bash: ki: command not found'];
 
-axios.defaults.baseURL = 'http://api.cider.aong.cn:8080';
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.common['Authorization'] = 'none';
+
+
+
 // axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
 
 // instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
@@ -18,55 +19,68 @@ export class CommandLine {
     switch (cmd) {
       case 'ls':
         this.display(Dir);
+        this.createNextCmdRow();
         break;
       case 'showproject':
-        this.showproject();
-        this.createNextCmdRow();
+        this.showProject();
         break;
       case 'showsetting':
-        this.showsetting();
-        this.createNextCmdRow();
+        this.showSetting();
         break;
-      case 'login':
-        this.login();
-        this.createNextCmdRow();
+      case 'auth':
+        this.authwithkey();
         break;
       case '':
         this.createNextCmdRow();
         break;
       default:
         this.display(ErrorCmd);
+        this.createNextCmdRow();
     }
   }
   execTab(cmd){
     $(".console-input").last().off('keydown');
     if (cmd == "") {
-      this.display(DefaultCmd);
+      this.displayTab(DefaultCmd);
     }else{
       const result = DefaultCmd.filter(word => word.startsWith(cmd));
       if (result.length == 0) {
           return
-      }
-      else if (result.length == 1) {
+      }else if (result.length == 1) {
         this.completeCmd(result)
       }else{
-        this.display(result,cmd);
+        this.displayTab(result,cmd);
       }
     }
   }
-  login(){
-
+  display403info(){
+    this._display403info()
   }
-  showproject(){
+  authwithkey(){
+    let key = $(".console-input").last().val().split(" ")[1];
+    console.log(key);
+    Auth(key)
+  }
+  showProject(){
     axios.get('/api/v1/project/all')
     .then((response)=>{
-      // console.log(response);
-      showProjectPanel(response.data.data,$("#projects"))
-    },()=>{
-      console.log("can't get projects info!")
+      ShowProjectPanel(response.data.data,$("#projects"))
+      // ----------------------
+      // async is a very stupid way
+      this.createNextCmdRow();
+      $(".console-input").last().on('keydown', window.checkCommand);
+      // ----------------------
+    },(error)=>{
+      this.display([error.message]);
+      // ----------------------
+      // async is a very stupid way way
+      this.createNextCmdRow();
+      $(".console-input").last().on('keydown', window.checkCommand);
+      // ----------------------
     })
+
   }
-  showsetting(){
+  showSetting(){
 
   }
   createProject(name,callback){
@@ -79,7 +93,8 @@ export class CommandLine {
     }
   }
   createNextCmdRow(extendCmd=''){
-    if ($(".console-input").last().val() != '' || $(".console-input").length == 1) {
+    // || $(".console").last().children('.console-output').length == 1
+    // if ($(".console-input").last().val() != '' || $(".console-input").length == 1) {
       $(".console-input").last().prop('disabled', 'false')
       $(".console-output").last().prop('disabled', 'false')
       let nextCmdRow = `
@@ -88,19 +103,25 @@ export class CommandLine {
         <input class="console-input" />
         </div>
       `
-      // let console_head = $('<div></div>').addClass('console-head').text('Cider:~ unlogin$ ');
-      // let console_input = $('<input>').addClass('console-input').val(extendCmd)
-      // let console_line = $('<div></div>').addClass('console').append(console_head,console_input)
       $("#command-line").append($(nextCmdRow));
       // $(".console-input").last().focus()
       $(".console-input").last().focus();
-      $(".console-input").last().val(extendCmd);
-    }
+      if (extendCmd != "") {
+        $(".console-input").last().val(extendCmd);
+      }
+    // }
   }
   completeCmd([cmd]){
     $(".console-input").last().val(cmd);
   }
   display(info,extendCmd=''){
+    $(".console-input").last().prop('disabled', 'false')
+    let console_head = $('<div></div>').addClass('console-head').text('');
+    let console_output = $('<input>').addClass('console-output').val(info.join(' '));
+    let console_line = $('<div></div>').addClass('console').append(console_head,console_output);
+    $("#command-line").append(console_line);
+  }
+  displayTab(info,extendCmd=''){
     $(".console-input").last().prop('disabled', 'false')
     let console_head = $('<div></div>').addClass('console-head').text('');
     let console_output = $('<input>').addClass('console-output').val(info.join(' '));

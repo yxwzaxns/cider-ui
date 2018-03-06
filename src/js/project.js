@@ -17,7 +17,7 @@ let tpl = `
   </div>
 </div>`
 
-function showProjectPanel(projectData, hookNode) {
+function ShowProjectPanel(projectData, hookNode) {
   let projectNum = hookNode.children('.projectItem').length;
   if(projectNum == 0){
     createProjectListNode(projectData, hookNode);
@@ -60,4 +60,4 @@ function createProjectListNode(projectData, hookNode) {
 function cleanProjectsNode(){
   $(".projectItem").remove();
 }
-export {showProjectPanel}
+export {ShowProjectPanel}

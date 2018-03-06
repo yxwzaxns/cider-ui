@@ -1,9 +1,11 @@
+import axios from 'axios'
 import {CommandLine} from './command-line.js'
+import {CheckAPIStatus} from './api.js'
 
 $(document).ready(function () {
-  let CurrentPath = '~';
-  console.log("init completed")
-  let cmd = new CommandLine()
+
+
+  window.cmd = new CommandLine()
 
   $("#terminal").click(function(event) {
     if($("#command-line").css('display') == "none"){
@@ -48,8 +50,8 @@ $(document).ready(function () {
     switch (e.which) {
       case 13:
         console.log(e.which+' has been press')
-        cmd.exec($(this).val())
-        $(".console-input").last().on('keydown', checkCommand);
+        cmd.exec($(this).val().split(" ")[0])
+        $(".console-input").last().on('keydown', window.checkCommand);
         break;
       case 9:
         cmd.execTab($(this).val())
@@ -60,13 +62,36 @@ $(document).ready(function () {
         // console.log(e.which);
         // e.preventDefault();
     }
-    // if (e.which == 13) {
-    //   console.log($(this).val());
-    //   $(this).prop('disabled', 'false')
-    //   var console_head = $('<div></div>').addClass('console-head').text('cider$')
-    //   var console_input = $('<input>').addClass('console-input')
-    //   var console_line = $('<div></div>').addClass('console').append(console_head,console_input).on('keydown', createCommand)
-    //   $("#commmand-line").append(console_line);
-    // }
   }
+  window.checkCommand = checkCommand;
+
+  InitNet();
+  CheckAPIStatus();
+  console.log("init completed");
 })
+
+function InitNet() {
+  axios.defaults.baseURL = 'http://cider.aong.cn:8080/';
+  // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  axios.defaults.headers.common['Authorization'] = 'none';
+
+  axios.interceptors.response.use(function (response) {
+      // Do something with response data
+      // console.log(response.data)
+      switch (response.data.code) {
+        case 403:
+          throw new axios.Cancel("No Access Permit");
+          break;
+        case 401:
+          throw new axios.Cancel("Key Not Match");
+          break;
+        default:
+
+      }
+      return response;
+    }, function (error) {
+
+      // Do something with response error
+      return Promise.reject(error);
+    });
+}

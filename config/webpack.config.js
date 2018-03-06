@@ -37,9 +37,13 @@ module.exports = {
 	// }
   // },
   plugins: [
+    // new webpack.ProvidePlugin({
+    //   jQuery: 'jquery',
+    //   $: 'jquery'
+    // }),
     new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery'
+      $: 'jquery',
+      jQuery: 'jquery'
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
@@ -52,6 +56,9 @@ module.exports = {
     filename: "bundle.js",
     host: "127.0.0.1",
     port: 8000,
-    open: true
+    open: true,
+    proxy: {
+      "/api": "http://localhost:8080"
+    }
   }
 };
