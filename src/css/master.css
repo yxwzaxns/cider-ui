@@ -30,3 +30,28 @@ body {
   border-style: inset;
   border-width: 1px;
 }
+
+#terminal {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  cursor: pointer;
+}
+#terminal :hover {
+  background-color: gray;
+}
+
+#tip {
+  position: fixed;
+  right: 0px;
+  bottom: 2px;
+  cursor: pointer;
+}
+
+#tip #sun {
+  margin-right: 0rem;
+}
+
+#tip :hover{
+
+}

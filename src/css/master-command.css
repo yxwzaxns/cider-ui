@@ -64,12 +64,3 @@
   overflow: hidden;
   vertical-align: bottom;
 }
-#terminal {
-  position: fixed;
-  left: 0px;
-  bottom: 0px;
-  cursor: pointer;
-}
-#terminal :hover {
-  background-color: gray;
-}

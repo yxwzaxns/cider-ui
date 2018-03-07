@@ -1,7 +1,8 @@
 import axios from 'axios'
 import {Auth} from './api.js'
 import {ShowProjectPanel} from './project.js'
-const DefaultCmd = ['help','cd','ls','auth','showproject','showsetting'];
+
+const DefaultCmd = ['help','cd','ls','auth','showproject','showsetting','setapi'];
 const Dir = ["project","setting"];
 const SubCmd = ["list projects"];
 const ErrorCmd = ['-bash: ki: command not found'];
@@ -29,6 +30,10 @@ export class CommandLine {
         break;
       case 'auth':
         this.authwithkey();
+        break;
+      case 'setapi':
+        this.setApiAddress();
+        this.createNextCmdRow();
         break;
       case '':
         this.createNextCmdRow();
@@ -58,8 +63,11 @@ export class CommandLine {
   }
   authwithkey(){
     let key = $(".console-input").last().val().split(" ")[1];
-    console.log(key);
     Auth(key)
+  }
+  setApiAddress(){
+    let apiAddr = $(".console-input").last().val().split(" ")[1];
+    axios.defaults.baseURL = apiAddr;
   }
   showProject(){
     axios.get('/api/v1/project/all')
@@ -99,7 +107,7 @@ export class CommandLine {
       $(".console-output").last().prop('disabled', 'false')
       let nextCmdRow = `
         <div class="console">
-        <div class="console-head">Cider:~ unlogin$ </div>
+        <div class="console-head">Cider:~ $ </div>
         <input class="console-input" />
         </div>
       `

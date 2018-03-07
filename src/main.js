@@ -8,6 +8,7 @@ import 'semantic-ui-label/label.min.css'
 import 'semantic-ui-transition/transition.min.css'
 import 'semantic-ui-dimmer/dimmer.min.css'
 import 'semantic-ui-modal/modal.min.css'
+import 'semantic-ui-message/message.min.css'
 
 window.$ = jQuery
 import 'semantic-ui-modal/modal.min.js'

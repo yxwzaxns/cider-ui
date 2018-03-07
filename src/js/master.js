@@ -1,48 +1,15 @@
 import axios from 'axios'
+import {Nya} from './mya.js'
+import {IndexInit} from './page-init.js'
 import {CommandLine} from './command-line.js'
 import {CheckAPIStatus} from './api.js'
+
+
 
 $(document).ready(function () {
 
 
   window.cmd = new CommandLine()
-
-  $("#terminal").click(function(event) {
-    if($("#command-line").css('display') == "none"){
-      $("#command-line").show('slow/400/fast', function() {
-        $(".console-input").last().focus()
-      });
-    }else{
-      $("#command-line").hide('slow/400/fast', function() {
-      });
-    }
-  });
-
-  $("#addProject").on('click', function(event) {
-    $("#addProject").fadeOut('400', function() {
-      $('.addProjectModal.modal')
-      // .modal('setting', 'closable', false)
-      .modal({
-        closable: false,
-        onApprove: ()=>{
-          cmd.createProject($("#newProjectName").val(),(res)=>{
-            if (res != 'ok') {
-              alert("system error !");
-              return false
-            }
-          })
-        },
-        onHidden: ()=>{
-          cmd.exec('showproject');
-          $(".console-input").last().on('keydown', checkCommand);
-          $("#addProject").fadeIn('400')
-        }
-      })
-      .modal('show');
-    });
-  });
-
-  $(".console-input").last().focus()
 
   $(".console-input").last().on('keydown', checkCommand);
 
@@ -65,13 +32,14 @@ $(document).ready(function () {
   }
   window.checkCommand = checkCommand;
 
+  IndexInit();
   InitNet();
   CheckAPIStatus();
   console.log("init completed");
 })
 
 function InitNet() {
-  axios.defaults.baseURL = 'http://cider.aong.cn:8080/';
+  // axios.defaults.baseURL = 'http://cider.aong.cn:8080/';
   // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Authorization'] = 'none';
 

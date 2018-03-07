@@ -2,16 +2,19 @@ import axios from 'axios'
 import { Base64 } from 'js-base64';
 
 function CheckAPIStatus() {
-  axios.get('/api/v1/ping')
-  .then((response)=>{
-    if (response.data.status == "ok") {
-      console.log("api status ok");
-    }else{
-      alert("api status error")
-    }
-  },(response)=>{
-
-  })
+  setInterval(()=>{
+    axios.get('/api/v1/ping')
+      .then((response)=>{
+        if (response.data.status == "ok") {
+          $("#tip i i").first().removeClass('red').addClass('green');
+        }else{
+          alert("api status error")
+          // $("#tip i i").first().removeClass('green').addClass('red');
+        }
+      },(response)=>{
+        $("#tip i i").first().removeClass('green').addClass('red');
+      })
+  }, 10000)
 }
 
 function Auth(_key) {

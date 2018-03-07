@@ -12,6 +12,7 @@
     "semantic-ui-icon": "^2.3.0",
     "semantic-ui-input": "^2.3.0",
     "semantic-ui-label": "^2.3.0",
+    "semantic-ui-message": "^2.3.0",
     "semantic-ui-modal": "^2.3.0",
     "semantic-ui-transition": "^2.3.0"
   },
