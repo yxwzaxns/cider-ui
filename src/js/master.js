@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Nya} from './mya.js'
+import {Nya} from 'nya.js'
 import {IndexInit} from './page-init.js'
 import {CommandLine} from './command-line.js'
 import {CheckAPIStatus} from './api.js'
@@ -25,6 +25,14 @@ $(document).ready(function () {
         $(".console-input").last().on('keydown', checkCommand);
         e.preventDefault();
         break;
+      case 38:
+        cmd.execUp();
+        e.preventDefault();
+        break;
+      case 40:
+        cmd.execDown();
+        e.preventDefault();
+        break;
       default:
         // console.log(e.which);
         // e.preventDefault();
@@ -48,7 +56,8 @@ function InitNet() {
       // console.log(response.data)
       switch (response.data.code) {
         case 403:
-          throw new axios.Cancel("No Access Permit");
+          // throw new axios.Cancel("No Access Permit");
+          throw new axios.Cancel("Permission denied");
           break;
         case 401:
           throw new axios.Cancel("Key Not Match");

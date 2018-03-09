@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+<input type="text" id="console" name="name" value="">
+<button type="button" name="button" id="b">ok</button>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#console").focus();
+    // let v = $("#console").val()
+    // $("#console").val("").focus().val(v)
+    $("#b").click(function(event) {
+      /* Act on the event */
+      $("#console").val("aaaaa").focus();
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Nya} from 'nya.js'
 import {Auth} from './api.js'
 import {ShowProjectPanel} from './project.js'
 
@@ -7,14 +8,34 @@ const Dir = ["project","setting"];
 const SubCmd = ["list projects"];
 const ErrorCmd = ['-bash: ki: command not found'];
 
-
-
-
-// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
-
-// instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-
 export class CommandLine {
+  constructor() {
+    this.historyCmdTable = {
+      list: [],
+      cur: 0,
+      push: function(c){
+        this.list.push(c)
+        this.cur = this.list.length;
+      },
+      next: function(){
+        if (this.list[this.cur + 1] != undefined) {
+          this.cur += 1;
+          return this.list[this.cur];
+        }else{
+          this.cur = this.list.length;
+          return "";
+        }
+      },
+      last: function(){
+        if (this.list[this.cur - 1] != undefined) {
+          this.cur -= 1;
+          return this.list[this.cur];
+        }else{
+          return null;
+        }
+      }
+    }
+  }
   exec(cmd) {
     $(".console-input").last().off('keydown');
     switch (cmd) {
@@ -42,6 +63,9 @@ export class CommandLine {
         this.display(ErrorCmd);
         this.createNextCmdRow();
     }
+    if (cmd != "" && $.inArray(cmd, DefaultCmd) != -1) {
+      this.historyCmdTable.push(cmd);
+    }
   }
   execTab(cmd){
     $(".console-input").last().off('keydown');
@@ -58,6 +82,22 @@ export class CommandLine {
       }
     }
   }
+  execUp() {
+    let c = this.historyCmdTable.last();
+    if (c == null) {
+      return
+    }else{
+      $(".console-input").last().val(c);
+    }
+  };
+  execDown() {
+    let c = this.historyCmdTable.next();
+    if (c == "") {
+      $(".console-input").last().val("")
+    }else{
+      $(".console-input").last().val(c)
+    }
+  };
   display403info(){
     this._display403info()
   }
@@ -68,6 +108,7 @@ export class CommandLine {
   setApiAddress(){
     let apiAddr = $(".console-input").last().val().split(" ")[1];
     axios.defaults.baseURL = apiAddr;
+    Nya.api_status = apiAddr;
   }
   showProject(){
     axios.get('/api/v1/project/all')

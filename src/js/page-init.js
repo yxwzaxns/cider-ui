@@ -1,7 +1,12 @@
-import {Nya} from './mya.js'
+import {Nya} from 'nya.js'
+import axios from 'axios'
 import {Message} from '../components/message.js'
 
+
 function IndexInit() {
+  Nya.bind("api_status",()=>{
+    console.log("api changes to : " + Nya.api_status)
+  })
   $("body").append(Message);
 
   $("#tip").mouseenter(()=>{
@@ -12,9 +17,11 @@ function IndexInit() {
       $("#info-apierr").removeClass('hidden');
     }
   })
+
   $("#tip").mouseleave(()=>{
     $("#info-apierr").addClass('hidden');
   })
+
   $("#terminal").click(function(event) {
     if($("#command-line").css('display') == "none"){
       $("#command-line").show('slow/400/fast', function() {
