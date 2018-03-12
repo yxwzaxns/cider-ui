@@ -17,25 +17,18 @@ module.exports = {
           test: /\.(html)$/,
           use: {
               loader: 'html-loader'
-            }
+            },
+          exclude: /node_modules/,
         },
         {
           test: /\.js$/,
           use: {
-              loader: 'babel-loader'
-          }
+              loader: 'babel-loader',
+          },
+          exclude: /node_modules/,
         }
     ]
   },
-  // resolve: {
-  //   modules: [
-  //    "node_modules",
-  //    path.resolve(__dirname, "../src")
-  //  ],
-  //  alias: {
-	// 	semantic_ui_icon: path.resolve(__dirname, "../node_modules/semantic-ui-icon/icon.min.css")
-	// }
-  // },
   plugins: [
     // new webpack.ProvidePlugin({
     //   jQuery: 'jquery',
@@ -46,7 +39,8 @@ module.exports = {
       jQuery: 'jquery'
     }),
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      title: 'Cider Dashboard',
+      template: './src/index.html',
       inject: 'head',
     })
   ],

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Nya} from 'nya.js'
 import { Base64 } from 'js-base64';
 
 function CheckAPIStatus() {

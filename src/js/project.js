@@ -1,4 +1,5 @@
 import githubLogo from '../img/github.png'
+import { ProjectInfoPanel_Tpl,ProjectInfoItems } from '../tpl/projectInfo.tpl.js'
 
 let tpl = `
 <div class="project">
@@ -26,7 +27,37 @@ function ShowProjectPanel(projectData, hookNode) {
     createProjectListNode(projectData, hookNode);
   }
   $('#projects').show('slow/600/fast', function() {
+    if ($("#project_info").length == 0) {
+      // append modal into dom
+      $("body").append(ProjectInfoPanel_Tpl);
+    }else{
+      console.log("project_info has exist!!")
+    };
 
+    // bind modal show event
+    $("#projects .projectItem").each(function(index, el) {
+      $(el).on('click', function(event) {
+        $("#project_info")
+        .modal({
+          closable: false,
+          // blurring: true,
+          onHide: function() {
+            return true;
+          }
+        })
+        .modal('show');
+        $("#show-panel").text("").append(ProjectInfoItems["project_status"]);
+
+        $('#menu-item a').each(function(index, el) {
+          $(el).on('click', function(event) {
+            $('#menu-item a').removeClass('active');
+            $(this).addClass('active');
+            $("#show-panel").text("").append(ProjectInfoItems[$(this).data("name")]);
+            $(".ui .checkbox").checkbox();
+          });
+        });
+      });
+    });
   });
 }
 
@@ -35,7 +66,7 @@ function createProjectListNode(projectData, hookNode) {
     console.log(projectData);
     for (let p of projectData) {
       let projectItem = `
-      <div class="projectItem">
+      <div class="projectItem" data-name="${p.ProjectName}">
         <div id="head" class="p">
           <img src="${githubLogo}" id="icon">
           <p id="name">${p.ProjectName}</p>

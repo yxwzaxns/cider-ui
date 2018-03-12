@@ -33,12 +33,12 @@ body {
 
 #terminal {
   position: fixed;
-  left: 0px;
-  bottom: 0px;
+  left: 3px;
+  bottom: 3px;
   cursor: pointer;
 }
 #terminal :hover {
-  background-color: gray;
+
 }
 
 #tip {

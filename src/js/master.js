@@ -3,11 +3,13 @@ import {Nya} from 'nya.js'
 import {IndexInit} from './page-init.js'
 import {CommandLine} from './command-line.js'
 import {CheckAPIStatus} from './api.js'
+import { Index_Tpl } from '../tpl/index.tpl.js'
 
 
 
 $(document).ready(function () {
 
+  $("#master").append(Index_Tpl)
 
   window.cmd = new CommandLine()
 
