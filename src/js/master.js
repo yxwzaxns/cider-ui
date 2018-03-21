@@ -49,7 +49,7 @@ $(document).ready(function () {
 })
 
 function InitNet() {
-  // axios.defaults.baseURL = 'http://cider.aong.cn:8080/';
+  axios.defaults.baseURL = 'http://cider.aong.cn:3000/';
   // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Authorization'] = 'none';
 

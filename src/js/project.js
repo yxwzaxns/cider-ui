@@ -1,5 +1,7 @@
 import githubLogo from '../img/github.png'
-import { ProjectInfoPanel_Tpl,ProjectInfoItems } from '../tpl/projectInfo.tpl.js'
+import Handlebars from 'handlebars'
+import { ProjectInfoPanel_Tpl,ProjectInfoItem_Tpls } from '../tpl/projectInfo.tpl.js'
+import { UpdateProject, GetProject } from './api.js'
 
 let tpl = `
 <div class="project">
@@ -27,46 +29,73 @@ function ShowProjectPanel(projectData, hookNode) {
     createProjectListNode(projectData, hookNode);
   }
   $('#projects').show('slow/600/fast', function() {
-    if ($("#project_info").length == 0) {
-      // append modal into dom
-      $("body").append(ProjectInfoPanel_Tpl);
-    }else{
-      console.log("project_info has exist!!")
-    };
+    initProjectModalEvent();
+  });
+}
 
-    // bind modal show event
-    $("#projects .projectItem").each(function(index, el) {
-      $(el).on('click', function(event) {
+function initProjectModalEvent() {
+  // bind modal show event
+  $("#projects .projectItem").each(function(index, el) {
+    $(el).on('click', function(event) {
+      let currentProjectName = $(this).data("name");
+      GetProject(currentProjectName).then((projectData)=>{
+        // create template of project panel and append it
+        let projectInfoPanel = ProjectInfoPanel_Tpl(projectData);
+        if ($("#project_info").length != 0) {
+          $("#project_info").remove();
+        }
+        $("body").append(projectInfoPanel);
+        // init modal menu before show panel of project
+        $("#menu-item a").removeClass('active').first().addClass('active');
+        $("#show-panel").text("").append(ProjectInfoItem_Tpls["project_status"](projectData));
+        // show modal of project detail
         $("#project_info")
         .modal({
           closable: false,
-          // blurring: true,
           onHide: function() {
             return true;
           }
         })
         .modal('show');
-        $("#show-panel").text("").append(ProjectInfoItems["project_status"]);
-
+        // bind menu event of project's panel
         $('#menu-item a').each(function(index, el) {
           $(el).on('click', function(event) {
             $('#menu-item a').removeClass('active');
             $(this).addClass('active');
-            $("#show-panel").text("").append(ProjectInfoItems[$(this).data("name")]);
-            $(".ui .checkbox").checkbox();
+            $("#show-panel").text("").append(ProjectInfoItem_Tpls[$(this).data("name")](projectData));
+            $(".ui .checkbox").checkbox({
+              // bind change button event
+              'onChecked': function(){
+                if ($(this).attr("name") == "lock_email") {
+                  $("#recev_email").parent().addClass('disabled');
+                }
+                updateProject($(this).attr("name"),'1',()=>{
+                  projectData[$(this).attr("name")] = true;
+                });
+              },
+              'onUnchecked': function(){
+                if ($(this).attr("name") == "lock_email") {
+                  $("#recev_email").parent().removeClass('disabled');
+                }else{
+                  updateProject($(this).attr("name"),'0',()=>{
+                    projectData[$(this).attr("name")] = false;
+                  });
+                }
+              }
+            });
           });
         });
+
       });
     });
   });
 }
-
 function createProjectListNode(projectData, hookNode) {
   if (projectData.length != 0) {
     console.log(projectData);
-    for (let p of projectData) {
+    for (let [i,p] of projectData.entries()) {
       let projectItem = `
-      <div class="projectItem" data-name="${p.ProjectName}">
+      <div class="projectItem" data-name="${p.ProjectName}" data-id="${i}">
         <div id="head" class="p">
           <img src="${githubLogo}" id="icon">
           <p id="name">${p.ProjectName}</p>
@@ -90,5 +119,23 @@ function createProjectListNode(projectData, hookNode) {
 
 function cleanProjectsNode(){
   $(".projectItem").remove();
+}
+
+function updateProject(name, yes, callback) {
+  let field = "";
+  if (name == 'lock_email') {
+    field = {
+      'field' : 'Email:' + $("#recev_email").val()
+    };
+  }else{
+    field = {
+      "field" : name + ':' + yes
+    };
+  }
+  console.log($("#project_info").data("name"))
+  UpdateProject($("#project_info").data("name"), field)
+  .then(()=>{
+    callback()
+  })
 }
 export {ShowProjectPanel}

@@ -29,6 +29,11 @@ module.exports = {
         }
     ]
   },
+  resolve: {
+      alias: {
+         handlebars: 'handlebars/dist/handlebars.min.js'
+      }
+  },
   plugins: [
     // new webpack.ProvidePlugin({
     //   jQuery: 'jquery',

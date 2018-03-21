@@ -20,20 +20,13 @@
   </style>
 </head>
 <body>
-<div class="c"><div>ss</div></div>
+<div class="c" data-name="1" id="c">1</div>
 <script type="text/javascript">
-  let div = $('<div><div>ss</div></div>').addClass('c').on('click', createDiv);
-
-  function createDiv() {
-    $(".c").last().off('click')
-
-    $("body").append(div)
-
-  }
-
-  $(".c").on('click', function(event) {
-    createDiv()
+$(document).ready(function() {
+  $("#c").on('click', function(event) {
+    let count =
   });
+});
 
 </script>
 </body>

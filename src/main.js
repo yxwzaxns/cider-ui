@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import './vendor/semantic/semantic.min.css'
 import './css/master.css';
 import './css/master-command.css';

@@ -15,19 +15,39 @@ function CheckAPIStatus() {
       },(response)=>{
         $("#tip i i").first().removeClass('green').addClass('red');
       })
-  }, 10000)
+  }, 100000)
 }
 
-function Auth(_key) {
-    axios.post('/api/v1/user/auth',{key: Base64.encode(_key)})
-    .then((response)=>{
-      axios.defaults.headers.common['Authorization'] = response.data.token;
-      window.cmd.createNextCmdRow();
-      $(".console-input").last().on('keydown', window.checkCommand);
-    }, (error)=>{
-      window.cmd.display([error.message]);
-      window.cmd.createNextCmdRow();
-      $(".console-input").last().on('keydown', window.checkCommand);
-    })
+function GetProject(projectName) {
+  let req = axios.get('/api/v1/project/' + projectName);
+  return req
+      .then(response => {
+        return response.data.data;
+      })
+      .catch(error => {
+        alert(error.message);
+      });
 }
-export {CheckAPIStatus, Auth}
+function Auth(_key) {
+  axios.post('/api/v1/user/auth',{key: Base64.encode(_key)})
+  .then((response)=>{
+    axios.defaults.headers.common['Authorization'] = response.data.token;
+    window.cmd.createNextCmdRow();
+    $(".console-input").last().on('keydown', window.checkCommand);
+  }, (error)=>{
+    window.cmd.display([error.message]);
+    window.cmd.createNextCmdRow();
+    $(".console-input").last().on('keydown', window.checkCommand);
+  })
+}
+function UpdateProject(projectName, field) {
+  let req = axios.put('/api/v1/project/' + projectName + '/update',field);
+  return req
+      .then(()=>{
+        return true
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+}
+export {CheckAPIStatus, Auth, UpdateProject, GetProject}

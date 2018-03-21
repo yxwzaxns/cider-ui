@@ -1,4 +1,5 @@
 import GithubLogo from '../img/github.png';
+import Handlebars from 'handlebars'
 
 let ProjectInfoPanel_Tpl_t = `
 <div class="ui modal" id="project_info">
@@ -21,8 +22,8 @@ let ProjectInfoPanel_Tpl_t = `
 </div>
 `
 
-let ProjectInfoPanel_Tpl = `
-<div class="ui modal large" id="project_info">
+let ProjectInfoPanel = `
+<div class="ui modal large" id="project_info" data-name="{{ ProjectName }}">
   <div class="header">
     Project Info
   </div>
@@ -36,12 +37,12 @@ let ProjectInfoPanel_Tpl = `
                <img src="${GithubLogo}">
              </div>
              <div class="content">
-               <a class="header">Cider</a>
+               <a class="header">{{ ProjectName }}</a>
                <div class="meta">
                  <span></span>
                </div>
                <div class="description">
-                 <p>github.com/yxwzaxns/cider </p>
+                 <p> {{ ProjectURL }} </p>
                </div>
 
                <div class="ui image label">
@@ -67,7 +68,7 @@ let ProjectInfoPanel_Tpl = `
          </button>
          <button class="ui compact labeled positive right floated  icon button" style="margin-top:5px">
            <i class="cog black icon"></i>
-           &nbsp;&nbsp;&nbsp;Build&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          </button>
         </div>
       </div>
@@ -149,22 +150,38 @@ let project_status = `
 let project_settings = `
 <div class="ui segment">
   <div class="field">
-    <div class="ui toggle checked checkbox" id="build_message_choose">
+    <div class="ui toggle checkbox" id="auto_build_choose">
       <label>Auto build</label>
-      <input type="checkbox" name="gift"  checked="">
+      <input type="checkbox" name="AutoBuild" {{#if AutoBuild }} checked="" {{/if}} >
     </div>
   </div>
+</div>
+<div class="ui segment">
+   <div class="field">
+     <div class="ui toggle checkbox" id="auto_deploy_choose">
+       <label>Auto deploy</label>
+       <input type="checkbox" name="AutoDeploy" tabindex="0"  {{#if AutoDeploy }} checked="" {{/if}}>
+     </div>
+   </div>
+</div>
+<div class="ui segment hidden">
+   <div class="field">
+     <div class="ui toggle checkbox" id="pause_project_choose">
+       <label>Pause Project</label>
+       <input type="checkbox" name="PauseServer" tabindex="0" {{#if PauseServer }} checked="" {{/if}}>
+     </div>
+   </div>
 </div>
   `;
 let message_settings = `
   <div class="ui segment">
      <div class="field">
-       <div class="ui right left icon input">
+       <div class="ui right {{#if Email}} disabled {{/if}}left icon input">
          <i class="envelope icon"></i>
-         <input type="text" placeholder="Enter Email">
+         <input type="text" placeholder="Enter Email" id="recev_email" name="Email" value="{{ Email }}">
        </div>
        <div class="ui checked toggle checkbox" style="margin-left:20px;">
-         <input type="checkbox" name="public" checked="">
+         <input type="checkbox" name="lock_email" {{#if Email }} checked="" {{/if}}>
          <label>Edit after unlocking</label>
        </div>
      </div>
@@ -173,20 +190,25 @@ let message_settings = `
      <div class="field">
        <div class="ui toggle checkbox" id="build_message_choose">
          <label>Send a message prompt when the project builds successfully</label>
-         <input type="checkbox" name="gift" tabindex="0" class="hidden">
+         <input type="checkbox" name="CINotification" tabindex="0"  {{#if CINotification }} checked="" {{/if}}>
        </div>
      </div>
   </div>
   <div class="ui segment">
      <div class="field">
-       <div class="ui toggle checkbox">
+       <div class="ui toggle checkbox ">
          <label>Send a message prompt when the project deploys successfully</label>
-         <input type="checkbox" name="gift" tabindex="0" class="hidden">
+         <input type="checkbox" name="CDNotification" tabindex="0" {{#if CDNotification }} checked="" {{/if}}>
        </div>
      </div>
   </div>
 `;
 
-let ProjectInfoItems = {"project_status":project_status,"project_settings":project_settings,"message_settings":message_settings}
+let ProjectInfoPanel_Tpl = Handlebars.compile(ProjectInfoPanel);
+let ProjectInfoItem_Tpls = {
+  "project_status" : Handlebars.compile(project_status),
+  "project_settings" : Handlebars.compile(project_settings),
+  "message_settings" : Handlebars.compile(message_settings)
+}
 
-export {ProjectInfoPanel_Tpl,ProjectInfoItems}
+export {ProjectInfoPanel_Tpl,ProjectInfoItem_Tpls}
