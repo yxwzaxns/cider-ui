@@ -2,7 +2,7 @@ import axios from 'axios'
 import {Nya} from 'nya.js'
 import {IndexInit} from './page-init.js'
 import {CommandLine} from './command-line.js'
-import {CheckAPIStatus} from './api.js'
+import {APIStatusDaemon,CheckAPIStatus} from './api.js'
 import { Index_Tpl } from '../tpl/index.tpl.js'
 
 
@@ -45,11 +45,12 @@ $(document).ready(function () {
   IndexInit();
   InitNet();
   CheckAPIStatus();
+  APIStatusDaemon();
   console.log("init completed");
 })
 
 function InitNet() {
-  axios.defaults.baseURL = 'http://cider.aong.cn:3000/';
+  axios.defaults.baseURL = 'https://cider.aong.cn:8080/';
   // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.headers.common['Authorization'] = 'none';
 

@@ -7,6 +7,8 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+  <!-- <script src="./a.js" charset="utf-8"></script> -->
+  <!-- <script src="./b.js" charset="utf-8"></script> -->
   <style media="screen">
     *{
       padding: 0px;
@@ -17,17 +19,38 @@
       width: 100px;
       border: 1px solid red;
     }
+    #b{
+      height: 100px;
+      width: 100px;
+      border: 1px solid red;
+    }
   </style>
 </head>
 <body>
+<!-- <div id="b"></div> -->
 <div class="c" data-name="1" id="c">1</div>
-<script type="text/javascript">
-$(document).ready(function() {
-  $("#c").on('click', function(event) {
-    let count =
-  });
-});
 
+<div id="input">
+  <input type="text" name="" value="">
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".c").on('click', function(event) {
+        $("#input").append('<input type="text" name="" value="">')
+    });
+  });
+  function test(){
+    return $.ajax({
+      url: "https://api.github.com/repos/yxwzaxns/cide",
+    })
+    // .done(function(d){
+    //   console.log(d)
+    // })
+    // .fail(function(e) {
+    //   console.log(e.statusText)
+    // })
+  }
 </script>
 </body>
 </html>

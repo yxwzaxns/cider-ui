@@ -1,7 +1,8 @@
 import axios from 'axios'
 import {Nya} from 'nya.js'
-import {Auth} from './api.js'
+import {Auth, CheckAPIStatus} from './api.js'
 import {ShowProjectPanel} from './project.js'
+import {CheckProject} from './utils.js'
 
 const DefaultCmd = ['help','cd','ls','auth','showproject','showsetting','setapi'];
 const Dir = ["project","setting"];
@@ -108,7 +109,7 @@ export class CommandLine {
   setApiAddress(){
     let apiAddr = $(".console-input").last().val().split(" ")[1];
     axios.defaults.baseURL = apiAddr;
-    Nya.api_status = apiAddr;
+    CheckAPIStatus()
   }
   showProject(){
     axios.get('/api/v1/project/all')
@@ -133,13 +134,20 @@ export class CommandLine {
 
   }
   createProject(name,callback){
-    if (name != '') {
-      axios.post('/api/v1/project/',{projectURL: name}).then((response)=>{
-        callback(response.data.status);
-      }, (response)=>{
-        console.log(response.status);
-      })
-    }
+    CheckProject(name,(res,validName)=>{
+      if (res == true) {
+        axios.post('/api/v1/project/',{projectURL: validName}).then((response)=>{
+          callback(response.data.status);
+        }, (response)=>{
+          console.log(response.status);
+        })
+      }else{
+        // project is not valid
+        this.display([name ,res])
+        callback("fail");
+        // this.createNextCmdRow()
+      }
+    })
   }
   createNextCmdRow(extendCmd=''){
     // || $(".console").last().children('.console-output').length == 1

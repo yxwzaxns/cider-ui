@@ -3,19 +3,24 @@ import {Nya} from 'nya.js'
 import { Base64 } from 'js-base64';
 
 function CheckAPIStatus() {
-  setInterval(()=>{
     axios.get('/api/v1/ping')
       .then((response)=>{
         if (response.data.status == "ok") {
-          $("#tip i i").first().removeClass('red').addClass('green');
+          // Nya.api_status = "ok"
         }else{
           alert("api status error")
           // $("#tip i i").first().removeClass('green').addClass('red');
         }
       },(response)=>{
-        $("#tip i i").first().removeClass('green').addClass('red');
+        Nya.api_status = "no"
       })
-  }, 100000)
+  // }, 100000)
+}
+
+function APIStatusDaemon() {
+    setInterval(()=>{
+      CheckAPIStatus()
+    }, 100000)
 }
 
 function GetProject(projectName) {
@@ -50,4 +55,15 @@ function UpdateProject(projectName, field) {
         alert(error.message);
       });
 }
-export {CheckAPIStatus, Auth, UpdateProject, GetProject}
+
+function GithubRepoCheck(url) {
+  return $.get(url)
+  // .done(function(d) {
+  //   return true;
+  // })
+  // .fail(function(e) {
+  //   console.log(e.statusText)
+  //   return e.statusText;
+  // });
+}
+export {CheckAPIStatus, Auth, UpdateProject, GetProject, APIStatusDaemon, GithubRepoCheck}

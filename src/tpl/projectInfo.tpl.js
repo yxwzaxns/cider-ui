@@ -37,6 +37,7 @@ let ProjectInfoPanel = `
                <img src="${GithubLogo}">
              </div>
              <div class="content">
+
                <a class="header">{{ ProjectName }}</a>
                <div class="meta">
                  <span></span>
@@ -122,7 +123,7 @@ let project_status = `
       </div>
     </div>
     <div class="step">
-      <i class="cog yellow loading  icon"></i>
+      <i class="cog yellow icon"></i>
       <div class="content">
         <div class="title">Building</div>
       </div>

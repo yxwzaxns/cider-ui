@@ -5,7 +5,8 @@ import {Message} from '../components/message.js'
 
 function IndexInit() {
   Nya.bind("api_status",()=>{
-    console.log("api changes to : " + Nya.api_status)
+    console.log("api address was changed")
+    updateAPIStatus()
   })
   $("body").append(Message);
 
@@ -43,7 +44,7 @@ function IndexInit() {
           cmd.createProject($("#newProjectName").val(),(res)=>{
             if (res != 'ok') {
               alert("system error !");
-              return false
+              return true
             }
           })
         },
@@ -58,7 +59,14 @@ function IndexInit() {
   });
 
   $(".console-input").last().focus()
+}
 
+function updateAPIStatus() {
+  if (Nya.api_status === "ok") {
+    $("#tip i i").first().removeClass('red').addClass('green');
+  }else{
+    $("#tip i i").first().removeClass('green').addClass('red');
+  }
 }
 
 export {IndexInit}
