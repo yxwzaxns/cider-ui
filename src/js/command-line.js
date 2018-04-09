@@ -114,6 +114,7 @@ export class CommandLine {
   showProject(){
     axios.get('/api/v1/project/all')
     .then((response)=>{
+      console.log("a:",response.data.data)
       ShowProjectPanel(response.data.data,$("#projects"))
       // ----------------------
       // async is a very stupid way
@@ -136,15 +137,17 @@ export class CommandLine {
   createProject(name,callback){
     CheckProject(name,(res,validName)=>{
       if (res == true) {
-        axios.post('/api/v1/project/',{projectURL: validName}).then((response)=>{
+        axios.post('/api/v1/project/',{projectURL: validName})
+          .then((response)=>{
           callback(response.data.status);
-        }, (response)=>{
-          console.log(response.status);
+        }, (error)=>{
+          callback(error)
         })
       }else{
         // project is not valid
-        this.display([name ,res])
-        callback("fail");
+        // this.display([name ,res])
+        console.log(res)
+        callback(res);
         // this.createNextCmdRow()
       }
     })

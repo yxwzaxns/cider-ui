@@ -35,22 +35,18 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $(".c").on('click', function(event) {
-        $("#input").append('<input type="text" name="" value="">')
-    });
-  });
-  function test(){
-    return $.ajax({
-      url: "https://api.github.com/repos/yxwzaxns/cide",
-    })
-    // .done(function(d){
-    //   console.log(d)
-    // })
-    // .fail(function(e) {
-    //   console.log(e.statusText)
-    // })
-  }
+function demo(name,callback) {
+  console.log(name)
+  setTimeout(function () {
+    callback("fuck")
+  }, 3000);
+}
+
+demo("aong",function(value){
+  console.log(value)
+})
+console.log("dddd")
+
 </script>
 </body>
 </html>

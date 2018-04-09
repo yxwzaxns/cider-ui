@@ -38,10 +38,13 @@ let Index_Tpl = `
         </div>
         <input type="text" id="newProjectName" placeholder="github.com/your_name/project_name" style="font-size:16px;">
       </div>
+      <div class="ui pointing black label" style="position:relative;left:20%;display:none" id="notifi">
+        Please enter a value
+      </div>
     </div>
     <div class="actions">
       <div class="ui cancel button">
-        No
+        Cancel
       </div>
       <div class="ui positive ok button">
         Yes

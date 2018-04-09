@@ -36,19 +36,30 @@ function IndexInit() {
 
   $("#addProject").on('click', function(event) {
     $("#addProject").fadeOut('400', function() {
+      $("#notifi").hide();
       $('.addProjectModal.modal')
       // .modal('setting', 'closable', false)
       .modal({
         closable: false,
         onApprove: ()=>{
-          cmd.createProject($("#newProjectName").val(),(res)=>{
-            if (res != 'ok') {
-              alert("system error !");
-              return true
+          console.log("click ok")
+          let token = null
+          cmd.createProject($("#newProjectName").val(),function(res){
+            if (res == "ok") {
+              token = 1
+            }else{
+              $("#notifi").html(res).show('slow/400/fast', function() {
+
+              });
+              token = 0
             }
           })
+        while (token != null) {
+            return token == 1? true: false;
+        }
         },
         onHidden: ()=>{
+          console.log("perpare close")
           cmd.exec('showproject');
           $(".console-input").last().on('keydown', checkCommand);
           $("#addProject").fadeIn('400')

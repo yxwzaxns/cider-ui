@@ -11,7 +11,7 @@ function CheckProject(name,callback) {
   }
   name = "github.com/" + name
   GithubRepoCheck(url)
-  .done(()=>{
+  .done((e)=>{
     callback(true,name)
   })
   .fail((e)=>{
